@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useAppState } from "../AppState.jsx";
 
 const Nav = (props) => {
-  const { dispatch } = useAppState();
+  const { state, dispatch } = useAppState();
 
   return (
     <header>
@@ -13,20 +13,20 @@ const Nav = (props) => {
         <Link to="/">
           <div>Home</div>
         </Link>
-        <Link to="/auth/signup">
+        {!state.token ? (<><Link to="/auth/signup">
           <div>Signup</div>
         </Link>
         <Link to="/auth/login">
           <div>Login</div>
-        </Link>
-        <div
+        </Link> </>) : null }
+        { state.token ? <div
           onClick={() => {
             dispatch({ type: "logout" });
             props.history.push("/");
           }}
         >
           Logout
-        </div>
+        </div> : null}
       </nav>
     </header>
   );
