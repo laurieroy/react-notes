@@ -1,10 +1,10 @@
 import React from "react";
-import ReactDom, { BrowserRouter as Router} from "react-dom";
+import ReactDom from "react-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import "./styles.css";
-import {App} from "./components/App"
-
-ReactDom.render(<App />, document.querySelector("#root"));
+import { App } from "./components/App";
+import { AppState } from "./AppState.jsx";
 
 ReactDom.render(
   <AppState>
