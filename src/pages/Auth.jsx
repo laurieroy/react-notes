@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAppState } from "../AppState.jsx";
 
 const Auth = (props) => {
@@ -7,17 +7,41 @@ const Auth = (props) => {
     username: "",
     password: "",
   });
+  const [userData, setUserData] = useState(null);
+  const { state, dispatch } = useAppState();
+  state;
 
-  const { dispatch } = useAppState();
+  useEffect(() => {
+    if (userData) {
+      console.log(userData);
+      const { token, user } = userData;
+      dispatch({ type: "auth", payload: { token, username: user.username } });
+      window.localStorage.setItem(
+        "auth",
+        JSON.stringify({ token, username: user.username })
+      );
+      props.history.push("/dashboard");
+    }
+  }, [userData]);
 
   const actions = {
-    signup: {
-      action: "signup",
-      payload: formData,
+    signup: () => {
+      return fetch(state.url + "/users", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }).then((response) => response.json());
     },
-    login: {
-      action: "login",
-      payload: formData,
+    login: () => {
+      return fetch(state.url + "/login", {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      }).then((response) => response.json());
     },
   };
 
@@ -28,11 +52,13 @@ const Auth = (props) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(actions[type]);
+    actions[type]().then((data) => {
+      setUserData(data);
+    });
   };
 
   return (
-    <div>
+    <div className="auth">
       <form onSubmit={handleSubmit}>
         <input
           type="text"

@@ -9,7 +9,7 @@ import { AppState } from "./AppState.jsx";
 ReactDom.render(
   <AppState>
     <Router>
-      <App />
+      <Route path="/" component={App} />
     </Router>
   </AppState>,
   document.querySelector("#root")
