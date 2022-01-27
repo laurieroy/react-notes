@@ -5,9 +5,19 @@ import React, { useContext, useReducer } from "react";
 //////////////////////////
 
 const initialState = {
-  url: "http://laurie-rails-notes-jwt.herokuapp.com",
+  url: "https://laurie-rails-notes-jwt.herokuapp.com",
   token: null,
   username: null,
+  notes: null,
+  new: {
+    title: "",
+    body: "",
+  },
+  edit: {
+    id: 0,
+    title: "",
+    body: "",
+  },
 };
 
 //////////////////////////
@@ -26,6 +36,14 @@ const reducer = (state, action) => {
     case "logout":
       newState = { ...state, token: null, username: null };
       window.localStorage.removeItem("auth");
+      return newState;
+      break;
+    case "getNotes":
+      newState = { ...state, notes: action.payload };
+      return newState;
+      break;
+    case "select":
+      newState = { ...state, edit: action.payload };
       return newState;
       break;
     default:

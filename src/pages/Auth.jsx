@@ -13,8 +13,8 @@ const Auth = (props) => {
 
   useEffect(() => {
     if (userData) {
-      console.log(userData);
       const { token, user } = userData;
+
       dispatch({ type: "auth", payload: { token, username: user.username } });
       window.localStorage.setItem(
         "auth",
@@ -25,23 +25,25 @@ const Auth = (props) => {
   }, [userData]);
 
   const actions = {
-    signup: () => {
-      return fetch(state.url + "/users", {
+    signup: async () => {
+      const response = await fetch(state.url + "/users", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }).then((response) => response.json());
+      });
+      return await response.json();
     },
-    login: () => {
-      return fetch(state.url + "/login", {
+    login: async () => {
+      const response = await fetch(state.url + "/login", {
         method: "post",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
-      }).then((response) => response.json());
+      });
+      return await response.json();
     },
   };
 
@@ -64,7 +66,7 @@ const Auth = (props) => {
           type="text"
           name="username"
           value={formData.username}
-          placeholder="laurie"
+          placeholder="username"
           onChange={handleChange}
         />
         <input

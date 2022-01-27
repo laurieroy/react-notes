@@ -15,9 +15,9 @@ export const App = (props) => {
 
     if (auth) {
       dispatch({ type: "auth", payload: auth });
-      props.history.push("/dashboard")
+      props.history.push("/dashboard");
     } else {
-      props.history.push("/")
+      props.history.push("/");
     }
   }, []);
 
